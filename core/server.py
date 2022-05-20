@@ -1,10 +1,10 @@
 from flask import jsonify
-from marshmallow.exceptions import ValidationError
+# from marshmallow.exceptions import ValidationError
 from core import app
 from core.apis.assignments.student import student_assignments_resources
 from core.apis.assignments.teacher import teacher_assignments_resources
 from core.libs import helpers
-from core.libs.exceptions import FyleError
+from core.libs.exceptions import FyleError, ValidationError
 from werkzeug.exceptions import HTTPException
 
 from sqlalchemy.exc import IntegrityError
@@ -31,8 +31,8 @@ def handle_error(err):
         ), err.status_code
     elif isinstance(err, ValidationError):
         return jsonify(
-            error=err.__class__.__name__, message=err.messages
-        ), 403
+            error=err.__class__.__name__, message=err.message
+        ), err.status_code
     elif isinstance(err, IntegrityError):
         return jsonify(
             error=err.__class__.__name__, message=str(err.orig)

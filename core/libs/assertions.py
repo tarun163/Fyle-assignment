@@ -1,8 +1,11 @@
-from .exceptions import FyleError
+from .exceptions import FyleError, ValidationError
 
 
 def base_assert(error_code, msg):
     raise FyleError(status_code=error_code, message=msg)
+
+def base_valid_assert(error_code, msg):
+    raise ValidationError(status_code=error_code, message=msg)
 
 
 def assert_auth(cond, msg='UNAUTHORIZED'):
@@ -23,3 +26,7 @@ def assert_valid(cond, msg='BAD_REQUEST'):
 def assert_found(_obj, msg='NOT_FOUND'):
     if _obj is None:
         base_assert(404, msg)
+        
+def assert_wrong(cond, msg='WRONG_DATA'):
+    if cond is False:
+        base_valid_assert(400, msg)        

@@ -80,7 +80,7 @@ class Assignment(db.Model):
             assignment = Assignment.get_by_id(assignment_new.id)
             assertions.assert_found(assignment, 'No assignment with this id was found')
             assertions.assert_valid(assignment.teacher_id == assignment_new.teacher_id, 'This assignment belongs to some other teacher')
-            assertions.assert_true(assignment_new.grade == ('A' or 'B' or 'C' or 'D'), 'not valid grade')
+            assertions.assert_wrong(assignment_new.grade == ('A' or 'B' or 'C' or 'D'), 'not valid grade')
             assertions.assert_valid(assignment.state == AssignmentStateEnum.SUBMITTED,
                                     'only assignment in submitted state can be graded')
             
